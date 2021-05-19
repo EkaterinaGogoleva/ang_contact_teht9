@@ -1,0 +1,26 @@
+<div class="container-fluid">
+<!--Tehdään Angularin Template-driven form jonka nimi on #f
+f.value on lomakkeelta lähtevä data oliomuodossa. Lomake lähtee vasta kun
+f.valid on true (pitää tarkistaa onSubmit -metodissa). novalidate kytkee pois 
+päältä selaimen oman validaattorin koska olemme tehneet itse validaation -->
+<form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid);" novalidate>
+<!--(?!\s*$) -lauseke tarkoittaa että lauseketta seuraavat merkit eivät voi olla loppuun saakka tyhjiä eli välilyöntejä-->
+<label>Nimi:</label><br /><input class="form-control" type="text" name="name" #name="ngModel" ngModel required pattern="(?!\s*$)[a-öA-Ö0-9 -]{2,50}"/>
+
+<span *ngIf="name.dirty">
+    <span *ngIf="f.form.hasError('required', 'name')">Nimi on pakollinen!<br></span>
+    <span *ngIf="f.form.hasError('pattern', 'name')">Nimen pitää olla oikea!<br></span>
+</span>
+
+<label>Email:</label><br /><input class="form-control" type="text" name="email" #email="ngModel" ngModel required email/>
+
+<span *ngIf="email.dirty">
+    <span *ngIf="f.form.hasError('required', 'email')">Email on pakollinen!</span>
+    <span *ngIf="f.form.hasError('email', 'email')">Emailin pitää olla oikea!</span>
+</span><br />
+
+<!-- f.invalid on sidottu property bindingilla disabled -attribuuttiin
+joka on button -elementin attribuutti. Jos arvo on true, on nappi disabled-->
+<button class="btn btn-outline-secondary" [disabled]="f.invalid" type="submit">Lähetä</button>
+</form>
+</div>
