@@ -1,9 +1,14 @@
-<div class="container-fluid">
+<!------------KONTAKTIENLISÄYS LOMAKE-------------->
+<div class="container-fluid" *ngIf="aservice.userData | async">
 <!--Tehdään Angularin Template-driven form jonka nimi on #f
 f.value on lomakkeelta lähtevä data oliomuodossa. Lomake lähtee vasta kun
 f.valid on true (pitää tarkistaa onSubmit -metodissa). novalidate kytkee pois 
-päältä selaimen oman validaattorin koska olemme tehneet itse validaation -->
-<form #f="ngForm" (ngSubmit)="onSubmit(f.value, f.valid);" novalidate>
+päältä selaimen oman validaattorin koska olemme tehneet itse validaation
+Анкета видна когда aservice.userdata = true -->
+<p>Lisää uusi kontakti</p>
+<form
+ #f="ngForm"  
+(ngSubmit)="onSubmit(f.value, f.valid);" novalidate>
 <!--(?!\s*$) -lauseke tarkoittaa että lauseketta seuraavat merkit eivät voi olla loppuun saakka tyhjiä eli välilyöntejä-->
 <label>Nimi:</label><br /><input class="form-control" type="text" name="name" #name="ngModel" ngModel required pattern="(?!\s*$)[a-öA-Ö0-9 -]{2,50}"/>
 
@@ -21,6 +26,22 @@ päältä selaimen oman validaattorin koska olemme tehneet itse validaation -->
 
 <!-- f.invalid on sidottu property bindingilla disabled -attribuuttiin
 joka on button -elementin attribuutti. Jos arvo on true, on nappi disabled-->
-<button class="btn btn-outline-secondary" [disabled]="f.invalid" type="submit">Lähetä</button>
+<button class="btn btn-outline-secondary" [disabled]="f.invalid" type="submit">Lähetä</button>&nbsp;
+<button class="btn btn-outline-secondary" (click)="signOut()">Kirjaudu ulos</button>
 </form>
 </div>
+<h1 *ngIf="aservice.userData | async">Hello {{ (aservice.userData | async)?.email }}</h1>
+<!-------------KIRJAUTUMISLOMAKE----------------->
+<!--анкета для регистрации видна когда даты пользователя нет или он не аудентифицирован-->
+<div class="container-fluid" *ngIf="!(aservice.userData | async)">
+
+    <label>Kirjaudu sisään tai rekiströidy</label>
+    <input class="form-control" type="text" [(ngModel)]="email" placeholder="email"><br>
+    <input class="form-control" type="password" [(ngModel)]="password" placeholder="password"><br>
+
+    <button class="btn btn-outline-secondary" (click)="signUp()">Sign Up</button>&nbsp;
+
+    <button class="btn btn-outline-secondary" (click)="signIn()">Login</button>
+</div>
+
+

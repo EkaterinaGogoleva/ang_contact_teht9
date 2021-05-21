@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { environment } from "src/environments/environment";
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -12,6 +13,7 @@ import { ContactlistComponent } from './contactlist/contactlist.component';
 import { ContactformComponent } from './contactform/contactform.component';
 import { ContactComponent } from './contact/contact.component';
 import { SearchFilterPipe } from './searchFilter.pipe';
+import { AngularFireAuthModule } from "@angular/fire/auth";
 
 @NgModule({
     declarations: [
@@ -25,10 +27,11 @@ import { SearchFilterPipe } from './searchFilter.pipe';
     imports: [
         BrowserModule,
         AppRoutingModule,
+        AngularFireAuthModule,
         FormsModule,
         ReactiveFormsModule,
-        /* HttpClientInMemoryWebApiModule on feikkiserverin moduuli
-           joka pitää ottaa pois käytöstä kun vaihdetaan oikeaan serveriin */
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFirestoreModule
   
       ],
     providers: [],

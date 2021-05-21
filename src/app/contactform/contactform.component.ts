@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../contact.service';
+import { AuthenticationService } from '../authentication.service';
 import { Contact } from '../contact';
 import { Router } from '@angular/router';
+
 
 @Component({
     selector: 'app-contactform',
@@ -9,16 +11,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./contactform.component.css']
 })
 export class ContactformComponent implements OnInit {
+    email: string;
+    password: string;
 
-    //model: any = {};
-
-    contacts: Contact[] = [];
-
-    constructor(private contactService: ContactService, private router: Router) { 
-    //haetaan kontaktit tähänkin komponenttiin että saadaan uudelle
-    //kontaktille oikea id selville
-    this.contactService.getContacts().subscribe(contacts => this.contacts = contacts);
-
+    constructor(public aservice: AuthenticationService, private contactService: ContactService, private router: Router) { 
+   this.email = '';
+   this.password = '';
     }
 
     ngOnInit() {
@@ -31,12 +29,11 @@ export class ContactformComponent implements OnInit {
         tapauksessa "tilaa" mitään dataa jota observable toimittaisi.
         */
         if (isFormValid) { // lomakedata menee serverille vain jos isFormValid on true
-        this.contactService.postContactToServer(
+        this.contactService.postContactToFs(
             {
-                'id': this.contacts.length + 1,
                 'name': formData.name,
                 'email': formData.email
-            }).subscribe();
+            }).then();
             // käyttöliittymässä siirrytään listaan vasta kun
             // data on lähetetty serverille
             this.navigateToList()
@@ -49,5 +46,21 @@ export class ContactformComponent implements OnInit {
         this.router.navigate(['/']);
 
     }
+    signUp() {
+        this.aservice.signUp(this.email, this.password);
+        this.email = ''; 
+        this.password = '';
+      }
+    
+      signIn() {
+        this.aservice.signIn(this.email, this.password);
+        this.email = ''; 
+        this.password = '';
+      }
+    
+      signOut() {
+        this.aservice.signOut();
+      }
+    
 
 }

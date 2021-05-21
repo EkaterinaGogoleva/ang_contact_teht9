@@ -12,7 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ContactlistComponent implements OnInit {
 
-    contacts: Contact[] = [];
+    contacts: Contact[] = [];//tänne laitetaan data
     nameFilter: FormControl = new FormControl(); // nameFilter -muuttuja on tyypiltään FormControl -olio ja Observable
     filterCriteria: string = ""; // hakuarvo jonka perusteella listaa filtteröidään
     field: string;
@@ -47,9 +47,22 @@ export class ContactlistComponent implements OnInit {
     _getContacts(): void {
         // tilataan subscribe-metodilla observable servicen getContacts -metodista
         // subscriben argumenttina on callback jolla kontaktitaulukko saadaan
-        this.contactService.getContacts()
-            .subscribe((contacts) => this.contacts = contacts);
+        this.contactService.getContactsFromFs()
+            .subscribe((contacts: any) => {
+              //firestoren palauttamaa dataa haetaan näin:
+              console.log(contacts[0].payload.doc.data().name);
+              //tyhjennetään luokan kontaktitaulukko vanhasta datasta ennen kuin haetaan ussi data
+              this.contacts = [];
+              for (let i=0; i< contacts.length; i++){
+                this.contacts.push({name: contacts[i].payload.doc.data().name,
+                  email: contacts[i].payload.doc.data().email });
+              }
+              //сортируем в алфавитном порядке
+            this.contacts.sort((a, b)=>(a.name > b.name)? 1: -1); 
+            }
+            )
     }
+  
 
     ngOnInit() {
         //suoritetaan kun komponentti otetaan käyttöön
