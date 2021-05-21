@@ -29,6 +29,7 @@ joka on button -elementin attribuutti. Jos arvo on true, on nappi disabled-->
 <button class="btn btn-outline-secondary" [disabled]="f.invalid" type="submit">Lähetä</button>&nbsp;
 <button class="btn btn-outline-secondary" (click)="signOut()">Kirjaudu ulos</button>
 </form>
+<p><br>Tiedoston lataus Cloud Storageen</p>
 </div>
 <h1 *ngIf="aservice.userData | async">Hello {{ (aservice.userData | async)?.email }}</h1>
 <!-------------KIRJAUTUMISLOMAKE----------------->
@@ -39,9 +40,23 @@ joka on button -elementin attribuutti. Jos arvo on true, on nappi disabled-->
     <input class="form-control" type="text" [(ngModel)]="email" placeholder="email"><br>
     <input class="form-control" type="password" [(ngModel)]="password" placeholder="password"><br>
 
-    <button class="btn btn-outline-secondary" (click)="signUp()">Sign Up</button>&nbsp;
+    <button class="btn btn-outline-secondary" (click)="signUp()">Rekiströidy</button>&nbsp;
 
-    <button class="btn btn-outline-secondary" (click)="signIn()">Login</button>
+    <button class="btn btn-outline-secondary" (click)="signIn()">Kirjaudu</button>
+<!-- Calling GoogleAuth() Api from AuthService -->
+
+<p><br>Kirjaudu Google-tunnuksilla</p>
+
+  <div class="row">
+    <div class="col-md-3">
+      <a (click)="aservice.GoogleAuth()" 
+      class="btn btn-outline-dark" role="button" style="text-transform:none">
+        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+        Login with Google
+      </a>
+    </div>
+  </div>
+  
 </div>
 
 

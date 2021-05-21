@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable } from 'rxjs';
+import firebase from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,25 @@ export class AuthenticationService {
   constructor(private afauth: AngularFireAuth) {
     this.userData = afauth.authState;
   }
+   // Sign in with Google
+   GoogleAuth() {
+    return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
+  }  
+/*регистрация с помощью фейсбука
+  FaceAuth() {
+    return this.AuthLogin(new firebase.auth.FacebookAuthProvider());
+  }  
+*/
+  // Auth logic to run auth providers
+  AuthLogin(provider: any) {
+    return this.afauth.signInWithPopup(provider)
+    .then((result:any) => {
+        console.log('You have been successfully logged in!')
+    }).catch((error:any) => {
+        console.log(error)
+    })
+  }
+
 
   /* Регистрация
   Sign up */
