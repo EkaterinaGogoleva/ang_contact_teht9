@@ -14,6 +14,7 @@ import { ContactformComponent } from './contactform/contactform.component';
 import { ContactComponent } from './contact/contact.component';
 import { SearchFilterPipe } from './searchFilter.pipe';
 import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth";
         FormsModule,
         ReactiveFormsModule,
         AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        AngularFireStorageModule
   
       ],
     providers: [],

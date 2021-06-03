@@ -54,7 +54,9 @@ export class ContactlistComponent implements OnInit {
               //tyhjennetään luokan kontaktitaulukko vanhasta datasta ennen kuin haetaan ussi data
               this.contacts = [];
               for (let i=0; i< contacts.length; i++){
-                this.contacts.push({name: contacts[i].payload.doc.data().name,
+                this.contacts.push({
+                  id: contacts[i].payload.doc.id,
+                  name: contacts[i].payload.doc.data().name,
                   email: contacts[i].payload.doc.data().email });
               }
               //сортируем в алфавитном порядке

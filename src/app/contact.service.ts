@@ -15,9 +15,6 @@ export class ContactService {
 
    
   
-  
-  
-
     constructor(private firestore: AngularFirestore) { }
 
   
@@ -26,9 +23,26 @@ export class ContactService {
       return this.firestore.collection("contacts").snapshotChanges();}
 
     // CREATE
-    postContactToFs(newcontact: Contact): Promise<any> {
+    //было newcontact: Contact
+    postContactToFs(newcontact: any): Promise<any> {
       return this.firestore
       .collection("contacts")
       .add(newcontact).catch(error=>console.log(error))   
     }
+
+  //UPDATE
+  updateContact(data:any, id:any): Promise<any> {
+    return this.firestore
+    .collection("contacts")
+    .doc(id) // oikea tietoa löydetään id:n avulla
+    .update(data);
+      }
+
+    // DELETE
+  deleteContact(data:any): Promise<any> {
+return this.firestore
+.collection("contacts")
+.doc(data.id)
+.delete();
+  }
 }

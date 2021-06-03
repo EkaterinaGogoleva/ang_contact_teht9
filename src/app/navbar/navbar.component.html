@@ -16,6 +16,11 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/form">Kontaktilomake</a>
         </li>
+        <li class="nav-item"
+        
+        *ngIf="(router.url === '/form') && (aservice.userData | async)">
+          <button class="btn btn-outline-secondary" (click)="signOut()">Kirjaudu ulos</button>
+        </li>
       </ul>
     </div>
   </nav>
